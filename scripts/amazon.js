@@ -1,4 +1,5 @@
   let productsHTML = '';
+  // products is on a separate .js file and is being used here to create dom Elements
   products.forEach((product) => {
     // Below is an accumlator pattern
     productsHTML += `
@@ -46,6 +47,7 @@
           Added
         </div>
 
+        // Data attribute is put on each item
         <button class="add-to-cart-button button-primary js-add-to-cart"
         data-product-id="${product.id}">
           Add to Cart
@@ -58,7 +60,7 @@
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-document.querySelectorAll('.js-add-to-cart')
+document.querySelectorAll('.js-add-to-cart') /* Targets the yellow btn's*/
   .forEach((button) => {
     button.addEventListener('click', () => {
       // console.log('added product');
@@ -66,6 +68,7 @@ document.querySelectorAll('.js-add-to-cart')
 
       let matchingItem;
 
+      // Tracks each item in the cart Array, no duplicates only the quantity can change.
       cart.forEach((item) => {
         if(productId === item.productId){
           matchingItem = item;
@@ -81,6 +84,17 @@ document.querySelectorAll('.js-add-to-cart')
         })
       }
 
+      // This is a separate operation that tracks the amount of items in the cart
+      let cartQuantity = 0;
+      cart.forEach((item) => {
+        cartQuantity += item.quantity;
+      })
+
+      // Updates the integer in the cart Icon
+      document.querySelector('.js-cart-quantity')
+        .innerHTML = cartQuantity;
+
+      console.log(cartQuantity)
       console.log(cart);
-    })
-  })
+    });
+  });
