@@ -1,3 +1,8 @@
+  import {cart} from '../data/cart.js'
+  // import{identicalVariable} from '../thefile'
+  // all imports must be at the top of the folder
+  // rename import {cart as myCart} from '../theFile'
+  
   let productsHTML = '';
   // products is on a separate .js file and is being used here to create dom Elements
   products.forEach((product) => {
