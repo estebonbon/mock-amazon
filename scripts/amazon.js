@@ -1,4 +1,4 @@
-  import { cart } from '../data/cart.js'
+  import { cart, addToCart } from '../data/cart.js'
   // import{identicalVariable} from '../thefile'
   // all imports must be at the top of the folder
   // rename import {cart as myCart} from '../theFile'
@@ -66,41 +66,27 @@
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+function updateCartQuantity() {
+   // This is a separate operation that tracks the amount of items in the cart
+   let cartQuantity = 0;
+   cart.forEach((item) => {
+     cartQuantity += item.quantity;
+   })
+
+   // Updates the integer in the cart Icon
+   document.querySelector('.js-cart-quantity')
+     .innerHTML = cartQuantity;
+
+   console.log(cartQuantity)
+   console.log(cart);
+}
+
+
 document.querySelectorAll('.js-add-to-cart') /* Targets the yellow btn's*/
   .forEach((button) => {
     button.addEventListener('click', () => {
       // console.log('added product');
-      const productId = (button.dataset.productId);
-
-      let matchingItem;
-
-      // Tracks each item in the cart Array, no duplicates only the quantity can change.
-      cart.forEach((item) => {
-        if(productId === item.productId){
-          matchingItem = item;
-        }
-      });
-
-      if(matchingItem) {
-        matchingItem.quantity += 1;
-      } else {
-        cart.push({
-          productId: productId,
-          quantity: 1
-        })
-      }
-
-      // This is a separate operation that tracks the amount of items in the cart
-      let cartQuantity = 0;
-      cart.forEach((item) => {
-        cartQuantity += item.quantity;
-      })
-
-      // Updates the integer in the cart Icon
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
-
-      console.log(cartQuantity)
-      console.log(cart);
-    });
+      const productId = button.dataset.productId;
+      addToCart(productId);
+      updateCartQuantity();i    });
   });
