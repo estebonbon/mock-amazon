@@ -3,6 +3,8 @@
   // all imports must be at the top of the folder
   // rename import {cart as myCart} from '../theFile'
   import { products } from '../data/products.js';
+
+  import { formatCurrency } from './money.js';
   
   let productsHTML = '';
   // products is on a separate .js file and is being used here to create dom Elements
@@ -28,7 +30,7 @@
         </div>
 
         <div class="product-price">
-          $${(product.priceCents /100).toFixed(2)}
+          $${formatCurrency(product.priceCents)}
         </div>
 
         <div class="product-quantity-container">
