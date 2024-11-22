@@ -1,4 +1,6 @@
-export const cart = [{
+// I had to change const to let because, if it was a const variable it means it can never be changed or influenced by other functions
+
+export let cart = [{
   productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
   quantity: 2,
 },
@@ -25,4 +27,16 @@ export function addToCart(productId) {
       quantity: 1
     })
   }
+}
+
+// This function avoids splice and figuring out what index each individual item has 
+export function removeFromCart(productId) {
+  const newCart = [];
+
+  cart.forEach((cartItem) => {
+    if(cartItem.productId !== productId){
+      newCart.push(cartItem);
+    }
+  });
+  cart = newCart;
 }
