@@ -85,3 +85,17 @@ export function updateQuantity(productId, newQuantity) {
 
   saveToStorage();
 }
+// This function take the param of productId searches for it in the cart array. Takes the new value of deliveryOptionId and gives it to matchingItem, so that is can be updated inside the cart array
+export function updateDeliveryOption(productId, deliveryOptionId) {
+
+  let matchingItem;
+   
+  cart.forEach((cartItem) => { 
+    if(productId === cartItem.productId){
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+  saveToStorage();
+}

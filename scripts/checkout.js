@@ -1,12 +1,9 @@
-import {cart, removeFromCart, calculateCartQauntity, updateQuantity} from '../data/cart.js';
+import {cart, removeFromCart, calculateCartQauntity, updateQuantity, updateDeliveryOption} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './money.js';
-import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions} from '../data/delivery.js';
 
-
-hello();
 
 const today = dayjs();
 // .add(is a method, the first space is the total you want to add, the next space is length of time written as string)
@@ -122,7 +119,9 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html += `
-    <div class="delivery-option">
+    <div class="delivery-option js-delivery-option"
+      data-product-id="${matchingProduct.id}"
+      data-delivery-option-id="${deliveryOption.id}">
       <input type="radio"
       /* incharge of displaying the blue button */
         ${isChecked ? 'checked' : ''}
@@ -188,45 +187,54 @@ document.querySelectorAll('.js-update-link')
     });
   });
 
-  document.querySelectorAll('.js-save-link')
-    .forEach((link) => {
-      link.addEventListener('click', () => {
+document.querySelectorAll('.js-save-link')
+  .forEach((link) => {
+    link.addEventListener('click', () => {
 
-        // This line of code retrieves the productID via the dataset
-        const productId = link.dataset.productId;
+      // This line of code retrieves the productID via the dataset
+      const productId = link.dataset.productId;
 
-        // This line of code looks for the class at the top of the product element, and uses the productId used in the line above to find the right match
-        const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      // This line of code looks for the class at the top of the product element, and uses the productId used in the line above to find the right match
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
-        // This line of code wants to extract the exact input value for this productId that the user put in
-        const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      // This line of code wants to extract the exact input value for this productId that the user put in
+      const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
 
-        // The line of code converts the variable into a number
-        const newQuantity = Number(quantityInput
-          .value);
+      // The line of code converts the variable into a number
+      const newQuantity = Number(quantityInput
+        .value);
 
-        console.log(productId, newQuantity)
+      console.log(productId, newQuantity)
 
-        // Prevents the code from continuing to run unless the coditions are met
-        if (newQuantity < 0 || newQuantity >= 1000) {
-          alert('Quantity must be at least 0 and less than 1000');
-          return;
-        }
+      // Prevents the code from continuing to run unless the coditions are met
+      if (newQuantity < 0 || newQuantity >= 1000) {
+        alert('Quantity must be at least 0 and less than 1000');
+        return;
+      }
 
-        // This sends a message to the cart.js file, and gives it to arguments. The function will scan the cart array. When it finds the matching product being reviewed it will update it with a newQuantity
-        updateQuantity(productId, newQuantity);
+      // This sends a message to the cart.js file, and gives it to arguments. The function will scan the cart array. When it finds the matching product being reviewed it will update it with a newQuantity
+      updateQuantity(productId, newQuantity);
 
-        // This removes the styles, which inturn removes the save link element from the dom
-        container.classList.remove('is-editing-quantity');
+      // This removes the styles, which inturn removes the save link element from the dom
+      container.classList.remove('is-editing-quantity');
 
-        // The next two line of code find the previous quantity of the product and update it with the new value
-        const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+      // The next two line of code find the previous quantity of the product and update it with the new value
+      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
 
-        quantityLabel.innerHTML = newQuantity;
+      quantityLabel.innerHTML = newQuantity;
 
-        updateCartQuantity(); /* by recalling this function is updates the top of the header in the html */
+      updateCartQuantity(); /* by recalling this function is updates the top of the header in the html */
 
-      });
     });
+});
+
+document.querySelectorAll('.js-delivery-option')
+  .forEach((element) => {
+    element.addEventListener('click', () => {
+      const {productId, deliveryOptionId} = element.dataset
+      updateDeliveryOption(productId, deliveryOptionId)
+    });
+});
 
 
+ 
