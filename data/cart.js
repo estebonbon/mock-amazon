@@ -1,13 +1,27 @@
 // I had to change const to let because, if it was a const variable it means it can never be changed or influenced by other functions
 
-export let cart = [{
-  productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  quantity: 2,
-},
-{
-  productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-  quantity: 1,
-}];
+export let cart = JSON.parse(localStorage.getItem('cart'));
+// If cart didn't equall anything why does it affect amazon.html it doesnt make sense. 
+// The file importing it will not be able to run properly, it will hault at an undefined variable
+
+
+
+if(!cart){
+  cart = [{
+    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    quantity: 2,
+    deliveryOptionId: '1',
+  },
+  {
+    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+    quantity: 1,
+    deliveryOptionId: '2'
+  }];
+}
+
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 export function addToCart(productId) {
   let matchingItem;
@@ -24,9 +38,12 @@ export function addToCart(productId) {
   } else {
     cart.push({
       productId: productId,
-      quantity: 1
+      quantity: 1,
+      deliveryOptionId: '1'
     })
   }
+
+  saveToStorage();
 }
 
 // This function avoids splice and figuring out what index each individual item has 
@@ -39,4 +56,32 @@ export function removeFromCart(productId) {
     }
   });
   cart = newCart;
+
+  saveToStorage();
+}
+
+export function calculateCartQauntity() {
+   // This is a separate operation that tracks the amount of items in the cart
+   let cartQuantity = 0;
+   cart.forEach((item) => {
+     cartQuantity += item.quantity;
+   });
+
+  //  console.log(cartQuantity)
+   return cartQuantity;
+}
+
+export function updateQuantity(productId, newQuantity) {
+
+  let matchingItem
+
+  cart.forEach((cartItem) => {
+    if(productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.quantity = newQuantity;
+
+  saveToStorage();
 }

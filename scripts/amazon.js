@@ -1,10 +1,12 @@
-  import { cart, addToCart } from '../data/cart.js'
+  import { addToCart, calculateCartQauntity } from '../data/cart.js'
   // import{identicalVariable} from '../thefile'
   // all imports must be at the top of the folder
   // rename import {cart as myCart} from '../theFile'
   import { products } from '../data/products.js';
 
   import { formatCurrency } from './money.js';
+
+  updateCartQuantity();
   
   let productsHTML = '';
   // products is on a separate .js file and is being used here to create dom Elements
@@ -68,19 +70,29 @@
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-function updateCartQuantity() {
-   // This is a separate operation that tracks the amount of items in the cart
-   let cartQuantity = 0;
-   cart.forEach((item) => {
-     cartQuantity += item.quantity;
-   })
+// function setCartQuantity() {
+//      // This is a separate operation that tracks the amount of items in the cart
+//      let cartQuantity = 0;
+//      cart.forEach((item) => {
+//        cartQuantity += item.quantity;
+//      });
+
+//     //  console.log(cartQuantity)
+//      return cartQuantity;
+// }
+
+// console.log(setCartQuantity());
+ function updateCartQuantity() {
+  let cartQuantity = calculateCartQauntity();
+
+     console.log(cartQuantity);
+  //  console.log(cart);
 
    // Updates the integer in the cart Icon
    document.querySelector('.js-cart-quantity')
      .innerHTML = cartQuantity;
 
-   console.log(cartQuantity)
-   console.log(cart);
+
 }
 
 
@@ -90,5 +102,8 @@ document.querySelectorAll('.js-add-to-cart') /* Targets the yellow btn's*/
       // console.log('added product');
       const productId = button.dataset.productId;
       addToCart(productId);
-      updateCartQuantity();i    });
+      updateCartQuantity();
+      // setCartQuantity();
+
+    });
   });
