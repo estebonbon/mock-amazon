@@ -1,18 +1,11 @@
-import {cart, removeFromCart, calculateCartQauntity, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+import {cart, removeFromCart, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
 import {getProduct} from '../../data/products.js';
 import { formatCurrency } from '../money.js'; 
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions, getDeliveryOption} from '../../data/delivery.js';
+import {deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
-
-
-const today = dayjs();
-// .add(is a method, the first space is the total you want to add, the next space is length of time written as string)
-const deliveryDate = today.add(7, 'days');
-
-console.log(deliveryDate.format('dddd, MMMM D'));
-
-// This is where the html is pushed for items in the cart array.
+import isSatSun from '../money.js'
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 export function renderOrderSummary () {
 
@@ -31,14 +24,7 @@ export function renderOrderSummary () {
 
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-    const today = dayjs();
-    const deliveryDate = today.add(
-      // id , the established number of days for that id.
-      deliveryOption.deliveryDays,
-      'days'
-    ); 
-
-    const dateString = deliveryDate.format('dddd, MMMM D');
+    const dateString = calculateDeliveryDate(deliveryOption);
     
     cartSummaryHTML += `
     <div class="cart-item-container 
@@ -78,7 +64,7 @@ export function renderOrderSummary () {
           <div class="delivery-options-title">
             Choose a delivery option:
           </div>
-          /* I have learned the hard way it is crucial for all paramters to be in position */
+          <!-- I have learned the hard way it is crucial for all paramters to be in position -->
           ${deliveryOptionsHTML(matchingProduct, cartItem)}
         </div>
       </div>
@@ -91,14 +77,9 @@ export function renderOrderSummary () {
     let html = ''; /* we are naming the variable, and initializing to avoid undefined/ unintentional concatenation of undefined */
     // loops through the delivery options
     deliveryOptions.forEach((deliveryOption) => {
-      const today = dayjs();
-      const deliveryDate = today.add(
-        // id , the established number for that id.
-        deliveryOption.deliveryDays,
-        'days'
-      ); 
+    
 
-      const dateString = deliveryDate.format('dddd, MMMM D');
+      const dateString = calculateDeliveryDate(deliveryOption);
 
       // This code below is a ternary operator
       const priceString = deliveryOption.priceCents 
@@ -142,41 +123,43 @@ export function renderOrderSummary () {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
         removeFromCart(productId);
-        console.log(cart);
+        
+        // console.log(cart);
+        // const container = document.querySelector(`.js-cart-item-container-${productId}`);
+        // container.remove(); Code replaced by rendering the html again
 
-        const container = document.querySelector(`.js-cart-item-container-${productId}`);
-
-        container.remove();
-        updateCartQuantity();
+        renderCheckoutHeader();
+        renderPaymentSummary();
+        renderOrderSummary();
       });
     });
 
+    document.querySelectorAll('.js-delivery-option')
+    .forEach((element) => {
+      element.addEventListener('click', () => {
+        const {productId, deliveryOptionId} = element.dataset
+        updateDeliveryOption(productId, deliveryOptionId)
 
-  function updateCartQuantity() {
-    // This is a separate operation that tracks the amount of items in the cart
-    let cartQuantity = calculateCartQauntity();
-
-    document.querySelector('.js-total-checkout')
-    .innerHTML = `${cartQuantity} items`;
-  }
-
-  updateCartQuantity();
-
+        // Recursion a function can re-run itself, takes updated data and regenerates the view
+        renderOrderSummary();
+        renderPaymentSummary();
+      });
+  });
 
   document.querySelectorAll('.js-update-link')
-    .forEach((link) => {
-      link.addEventListener('click', () => {
-        const productId = link.dataset.productId;
+  .forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
 
-        const container = document.querySelector(`.js-cart-item-container-${productId}`);
-        // had to replace the matchingId aurgument with 'productId'
-        // It was spelt js-cart-id instead of js-cart-item-container and this is why i wouldn't work
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      // had to replace the matchingId aurgument with 'productId'
+      // It was spelt js-cart-id instead of js-cart-item-container and this is why i wouldn't work
 
-        container.classList.add('is-editing-quantity');
+      container.classList.add('is-editing-quantity');
 
-        // console.log(container);
-      });
+      // console.log(container);
     });
+  });
 
   document.querySelectorAll('.js-save-link')
     .forEach((link) => {
@@ -209,30 +192,23 @@ export function renderOrderSummary () {
         // This removes the styles, which inturn removes the save link element from the dom
         container.classList.remove('is-editing-quantity');
 
-        // The next two line of code find the previous quantity of the product and update it with the new value
-        const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
-
-        quantityLabel.innerHTML = newQuantity;
-
-        updateCartQuantity(); /* by recalling this function is updates the top of the header in the html */
-        renderPaymentSummary();
-
-      });
-  });
-
-  document.querySelectorAll('.js-delivery-option')
-    .forEach((element) => {
-      element.addEventListener('click', () => {
-        const {productId, deliveryOptionId} = element.dataset
-        updateDeliveryOption(productId, deliveryOptionId)
-
-        // Recursion a function can re-run itself, takes updated data and regenerates the view
+        renderCheckoutHeader();
         renderOrderSummary();
         renderPaymentSummary();
+
+
+        // // The next two line of code find the previous quantity of the product and update it with the new value
+        // const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+
+        // quantityLabel.innerHTML = newQuantity;
+
+        // updateCartQuantity(); /* by recalling this function is updates the top of the header in the html */
+        // renderPaymentSummary();
+
       });
   });
-}
 
+}
  
 
 /* MVC
@@ -242,3 +218,16 @@ Controller - things like the event listener that allow you to interact with the 
 
 MVC is a design patern that makes sure the pages and the data are congruent*/
  
+const today = dayjs();
+// .add(is a method, the first space is the total you want to add, the next space is length of time written as string)
+const deliveryDate = today.subtract(1, 'month');
+
+console.log(deliveryDate.format('MMMM, D'));
+
+// This is where the html is pushed for items in the cart array.
+
+const newDate = today.add(5, 'day');
+console.log(newDate.format('dddd'));
+
+console.log(isSatSun(newDate));
+
