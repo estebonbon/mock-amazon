@@ -1,5 +1,5 @@
 import { addToCart, cart, loadFromStorage } from "../../data/cart.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+
 
 describe('Test suite: add to cart', () => {
   it('adds exisiting product to cart', () => {
@@ -37,4 +37,6 @@ describe('Test suite: add to cart', () => {
   });
 })
 
-// mocks only last for one test
+// mocks only last for one test, 
+// unit tests only test on piece of the code
+// integration test test many pieces working together
