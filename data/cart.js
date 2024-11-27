@@ -1,5 +1,6 @@
 // I had to change const to let because, if it was a const variable it means it can never be changed or influenced by other functions
 
+import { validDeliveryOption } from "./deliveryOptions.js";
 export let cart;
 
 loadFromStorage();
@@ -18,7 +19,7 @@ export function loadFromStorage() {
     {
       productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
       quantity: 1,
-      deliveryOptionId: '2'
+      deliveryOptionId: '2',
     }]; 
   }
 }
@@ -78,6 +79,11 @@ export function calculateCartQauntity() {
 // This function take the param of productId searches for it in the cart array. Takes the new value of deliveryOptionId and gives it to matchingItem, so that is can be updated inside the cart array
 export function updateDeliveryOption(productId, deliveryOptionId) {
 
+  if(!validDeliveryOption(deliveryOptionId)) {
+    return; 
+  };
+  // If deliveryOptionId equals a value that does not exist, the rest of this code inside will not run.
+
   let matchingItem;
    
   cart.forEach((cartItem) => { 
@@ -85,6 +91,10 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
       matchingItem = cartItem;
     }
   });
+
+  if(!matchingItem) {
+    return;
+  }
 
   matchingItem.deliveryOptionId = deliveryOptionId;
   saveToStorage();
