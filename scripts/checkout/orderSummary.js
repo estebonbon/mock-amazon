@@ -1,8 +1,9 @@
 import {cart, removeFromCart, calculateCartQauntity, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {getProduct} from '../../data/products.js';
 import { formatCurrency } from '../money.js'; 
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions} from '../../data/delivery.js';
+import {deliveryOptions, getDeliveryOption} from '../../data/delivery.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 
 const today = dayjs();
@@ -21,25 +22,14 @@ export function renderOrderSummary () {
   cart.forEach((cartItem) => {
 
     const productId = cartItem.productId;
-    let matchingProduct;
 
-    products.forEach((product) => {
-      if(product.id === productId){
-        matchingProduct = product
-      }
-    })
+    const matchingProduct = getProduct(productId);
 
     // console.log(matchingProduct);
 
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption; 
-
-    deliveryOptions.forEach((option) => {
-      if(option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today.add(
@@ -225,6 +215,7 @@ export function renderOrderSummary () {
         quantityLabel.innerHTML = newQuantity;
 
         updateCartQuantity(); /* by recalling this function is updates the top of the header in the html */
+        renderPaymentSummary();
 
       });
   });
@@ -237,6 +228,7 @@ export function renderOrderSummary () {
 
         // Recursion a function can re-run itself, takes updated data and regenerates the view
         renderOrderSummary();
+        renderPaymentSummary();
       });
   });
 }
