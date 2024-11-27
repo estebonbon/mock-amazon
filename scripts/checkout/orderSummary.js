@@ -218,16 +218,16 @@ Controller - things like the event listener that allow you to interact with the 
 
 MVC is a design patern that makes sure the pages and the data are congruent*/
  
-const today = dayjs();
-// .add(is a method, the first space is the total you want to add, the next space is length of time written as string)
-const deliveryDate = today.subtract(1, 'month');
+// const today = dayjs();
+// // .add(is a method, the first space is the total you want to add, the next space is length of time written as string)
+// const deliveryDate = today.subtract(1, 'month');
 
-console.log(deliveryDate.format('MMMM, D'));
+// console.log(deliveryDate.format('MMMM, D'));
 
-// This is where the html is pushed for items in the cart array.
+// // This is where the html is pushed for items in the cart array.
 
-const newDate = today.add(5, 'day');
-console.log(newDate.format('dddd'));
+// const newDate = today.add(5, 'day');
+// console.log(newDate.format('dddd'));
 
-console.log(isSatSun(newDate));
+// console.log(isSatSun(newDate));
 
