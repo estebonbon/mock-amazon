@@ -35,6 +35,10 @@ class Product {
   getPrice() {
     return `$${formatCurrency(this.priceCents)}`
   };
+
+  extraInfoHTML() {
+    return '';
+  }
 };
 
 const product1 = new Product( {
@@ -51,6 +55,24 @@ const product1 = new Product( {
     "sports",
     "apparel"
   ]},);
+
+class Clothing extends Product{
+  sizeChartLink;
+
+  constructor (productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraInfoHTML() {
+    // super.extraInfoHTML()
+     return `
+     <a href="${this.sizeChartLink}" target="_blank">Size chart</a>
+     `;
+  }
+
+}
+
 
 export const products = [
   {
@@ -712,5 +734,13 @@ export const products = [
     ]
   }
 ].map((productDetails) => {
+  if(productDetails.type === 'clothing') {
+    return new Clothing(productDetails)
+  }
   return new Product(productDetails);
 });
+
+
+// Extends in code means the the class will inherit things from something else
+// Use inheritance when one class is a more specific typs of another class
+// Polymorphism is let classes take care of the if statement related to display
