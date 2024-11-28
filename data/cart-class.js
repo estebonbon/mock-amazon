@@ -5,15 +5,15 @@ import { validDeliveryOption } from "./deliveryOptions.js";
 
 class Cart {
   cartItems;
-  localStorageKey;
+  #localStorageKey;
 
   constructor (localStorageKey) {
-    this.localStorageKey = 'localStorageKey';
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+  #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
     // If cart didn't equall anything why does it affect amazon.html it doesnt make sense. 
     // The file importing it will not be able to run properly, it will hault at an undefined variable
   
@@ -32,7 +32,7 @@ class Cart {
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   addToCart(productId) {
@@ -132,5 +132,7 @@ console.log(businessCart);
 console.log(businessCart instanceof Cart);
 
 // method has to be named costructor, it does not return values
+
+// #'s make a poperty private
 
 
