@@ -1,6 +1,7 @@
 // I had to change const to let because, if it was a const variable it means it can never be changed or influenced by other functions
 
 import { validDeliveryOption } from "./deliveryOptions.js";
+
 export let cart;
 
 loadFromStorage();
