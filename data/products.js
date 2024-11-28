@@ -73,6 +73,23 @@ class Clothing extends Product{
 
 }
 
+// const date = new Date();
+// console.log(date);
+// console.log(date.toLocaleTimeString());
+
+// function logThis() {
+//   console.log(this);
+// }
+
+// logThis();
+// logThis.call('pillow');
+
+// const object3 = {
+//   method: () => {
+//     console.log(this);
+//   }
+// };
+
 
 export const products = [
   {
@@ -744,3 +761,5 @@ export const products = [
 // Extends in code means the the class will inherit things from something else
 // Use inheritance when one class is a more specific typs of another class
 // Polymorphism is let classes take care of the if statement related to display
+// If your use 'this' inside an object but outside of a method 'this' has nothing to point to. It works best inside methods
+// Iniside a regular function 'this' is undefined. In arrow functions this is equal to whatever it is outside.
