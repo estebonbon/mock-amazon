@@ -115,3 +115,18 @@ export function updateQuantity(productId, newQuantity) {
 
   saveToStorage();
 }
+
+export function loadCart(func) { 
+  // Initialize the variable
+  const xhr = new XMLHttpRequest();
+
+  // Add event listener in this case it is load
+  xhr.addEventListener('load', () => {
+    console.log(xhr.response);
+    func();
+  });
+    // The first line is the command we want it to execute, seconde line executes.
+    xhr.open('GET', 'https://supersimplebackend.dev/cart  ');
+    xhr.send();
+} 
+ 
