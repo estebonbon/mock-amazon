@@ -94,15 +94,18 @@ export function loadProductsFetch() {
       return new Product(productDetails);
   });
   console.log('load products');
-  });
+  }).catch((error) => {
+    console.log('unexpected error, please try again later');
+  })
+
   return promise;
-} 
+}  
 
 // loadProductsFetch().then(() => {
 //   console.log('next step');
 // });
 
-export  function loadProducts(func) {
+export function loadProducts(func) {
   
   // Initialize the variable
   const xhr = new XMLHttpRequest();
@@ -122,6 +125,10 @@ export  function loadProducts(func) {
 
     func();
   });
+    xhr.addEventListener('error', () => {
+      console.log('unexpected error, please try again later');
+    });
+
     // The first line is the command we want it to execute, seconde line executes.
     xhr.open('GET', 'https://supersimplebackend.dev/products');
     xhr.send();

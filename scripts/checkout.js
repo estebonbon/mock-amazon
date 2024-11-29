@@ -11,14 +11,22 @@ import { loadCart } from '../data/cart.js';
 
 async function loadPage() {
 
-  await loadProductsFetch(); 
-  /* replaces .then !waits!, only works in async function */
+  try {
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve(); /* Resolve makes things wait until done */
-    });
-  });
+    await loadProductsFetch(); 
+    /* replaces .then !waits!, only works in async function */
+
+    // throw ('error')
+  
+    await new Promise((resolve, reject) => {
+      loadCart(() => {
+        // reject('error3')
+        resolve(); /* Resolve makes things wait until done */
+      });
+    });  
+  } catch (error) {
+    console.log('unexpected error'); 
+  }
 
   renderOrderSummary();
   renderPaymentSummary();
