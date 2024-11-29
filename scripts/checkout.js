@@ -9,23 +9,39 @@ import { loadCart } from '../data/cart.js';
 // import '../data/car.js';
 // import '../data/cart-class.js';
 
-Promise.all([
-  loadProductsFetch(),
-  new Promise((resolve) => {
-    loadCart(() => {
-      resolve('mystery'); 
-    });
-  }),
+async function loadPage() {
 
-]).then((values) => {
-  console.log(values);
+  await loadProductsFetch(); 
+  /* replaces .then !waits!, only works in async function */
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve(); /* Resolve makes things wait until done */
+    });
+  });
+
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeader();
-})
 
+}
 
+loadPage()
 
+// Promise.all([
+//   loadProductsFetch(),
+//   new Promise((resolve) => {
+//     loadCart(() => {
+//       resolve('mystery'); 
+//     });
+//   }),   
+
+// ]).then((values) => {
+//   console.log(values);
+  // renderOrderSummary();
+  // renderPaymentSummary();
+  // renderCheckoutHeader();
+// })
 
 // loadProducts(() => {
 //   loadCart(() => {
