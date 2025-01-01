@@ -1,9 +1,9 @@
 import { renderCheckoutHeader } from './checkout/checkoutHeader.js';
-import { renderOrderSummary } from './checkout/ordersummary.js';
+import { renderOrderSummary } from 'scripts/checkout/orderSummary.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
 import { loadProductsFetch } from '../data/products.js';
 
-import { loadCart, loadCartFetch } from '../data/cart.js';
+import { loadCartFetch } from '../data/cart.js';
 
 // import '../data/backend-practise.js'
 // import '../data/car.js';
