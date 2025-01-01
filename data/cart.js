@@ -29,7 +29,7 @@ function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-export function addToCart(productId) {
+export function addToCart(productId, productQuantity) {
   let matchingItem;
 
   // Tracks each item in the cart Array, no duplicates only the quantity can change.
@@ -40,11 +40,11 @@ export function addToCart(productId) {
   });
 
   if(matchingItem) {
-    matchingItem.quantity += 1;
+    matchingItem.quantity += productQuantity;
   } else {
     cart.push({
       productId: productId,
-      quantity: 1,
+      quantity: productQuantity,
       deliveryOptionId: '1'
     })
   }

@@ -58,7 +58,7 @@
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -123,8 +123,14 @@
       button.addEventListener('click', () => {
         // console.log('added product');
         const productId = button.dataset.productId;
-        addToCart(productId);
-        updateCartQuantity();
+
+        const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+        const productQuantity = Number(quantitySelector.value);
+
+        console.log('selectorQ:', productQuantity);
+
+          addToCart(productId, productQuantity);
+          updateCartQuantity();
       });
     });
 
