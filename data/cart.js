@@ -29,8 +29,12 @@ function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-export function addToCart(productId, productQuantity) {
+export function addToCart(productId, productQuantity = 1) {
   let matchingItem;
+
+  console.log('Product being added:', productId, 'Quantity:', productQuantity);
+  console.log('Cart before update:', cart);
+
 
   // Tracks each item in the cart Array, no duplicates only the quantity can change.
   cart.forEach((cartItem) => { 
@@ -40,11 +44,11 @@ export function addToCart(productId, productQuantity) {
   });
 
   if(matchingItem) {
-    matchingItem.quantity += productQuantity;
+    matchingItem.quantity += productQuantity || 0;
   } else {
     cart.push({
       productId: productId,
-      quantity: productQuantity,
+      quantity: productQuantity || 1,
       deliveryOptionId: '1'
     })
   }
