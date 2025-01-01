@@ -66,7 +66,7 @@ export function removeFromCart(productId) {
   saveToStorage();
 }
 
-export function calculateCartQauntity() {
+export function calculateCartQuantity() {
    // This is a separate operation that tracks the amount of items in the cart
    let cartQuantity = 0;
    cart.forEach((item) => {
@@ -116,17 +116,27 @@ export function updateQuantity(productId, newQuantity) {
   saveToStorage();
 }
 
-export function loadCart(func) { 
+export function loadCart(done) { 
   // Initialize the variable
   const xhr = new XMLHttpRequest();
 
   // Add event listener in this case it is load
   xhr.addEventListener('load', () => {
     console.log(xhr.response);
-    func();
+    done();
   });
     // The first line is the command we want it to execute, seconde line executes.
-    xhr.open('GET', 'https://supersimplebackend.dev/cart  ');
+    xhr.open('GET', 'https://supersimplebackend.dev/cart ');
     xhr.send();
 } 
+
+export async function loadCartFetch() {
+  const response = await 
+
+  fetch('https://supersimplebackend.dev/cart');
+
+  const text = await response.text();
+  console.log(text);
+  return text;
+}
  

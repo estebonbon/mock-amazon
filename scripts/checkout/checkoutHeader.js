@@ -1,7 +1,7 @@
-import { calculateCartQauntity } from "../../data/cart.js";
+import { calculateCartQuantity } from "../../data/cart.js";
 
 export function renderCheckoutHeader () {
-  let cartQuantity = calculateCartQauntity();
+  let cartQuantity = calculateCartQuantity();
 
   let checkoutHeaderHTML = 
   `

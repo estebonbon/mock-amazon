@@ -1,9 +1,9 @@
 import { renderCheckoutHeader } from './checkout/checkoutHeader.js';
 import { renderOrderSummary } from './checkout/ordersummary.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
-import { loadProducts, loadProductsFetch } from '../data/products.js';
+import { loadProductsFetch } from '../data/products.js';
 
-import { loadCart } from '../data/cart.js';
+import { loadCart, loadCartFetch } from '../data/cart.js';
 
 // import '../data/backend-practise.js'
 // import '../data/car.js';
@@ -12,20 +12,14 @@ import { loadCart } from '../data/cart.js';
 async function loadPage() {
 
   try {
+    await Promise.all([
+      loadProductsFetch(),
+      loadCartFetch()
+    ]);
+    // The promise must finish all of them, but at the sametime
 
-    await loadProductsFetch(); 
-    /* replaces .then !waits!, only works in async function */
-
-    // throw ('error')
-  
-    await new Promise((resolve, reject) => {
-      loadCart(() => {
-        // reject('error3')
-        resolve(); /* Resolve makes things wait until done */
-      });
-    });  
   } catch (error) {
-    console.log('unexpected error'); 
+    console.log('unexpected error. Please Try again'); 
   }
 
   renderOrderSummary();

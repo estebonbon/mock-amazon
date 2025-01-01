@@ -1,10 +1,10 @@
-  import { addToCart, calculateCartQauntity } from '../data/cart.js'
+  import { addToCart, calculateCartQuantity } from '../data/cart.js'
   // import{identicalVariable} from '../thefile'
   // all imports must be at the top of the folder
   // rename import {cart as myCart} from '../theFile'
   import { products, loadProducts } from '../data/products.js';
 
-  import { formatCurrency } from './money.js';
+  // import { formatCurrency } from './money.js';
 
   loadProducts(renderProductsGrid);
 
@@ -13,8 +13,26 @@
     updateCartQuantity();
   
     let productsHTML = '';
-    // products is on a separate .js file and is being used here to create dom Elements
-    products.forEach((product) => {
+    
+    const url = new URL(window.location.href);
+    const search = url.searchParams.get('search');
+    console.log(search);
+  
+    let filteredProducts = products;
+  
+    // If a search exists in the URL parameters,
+    // filter the products that match the search.
+    if (search) {
+      filteredProducts = products.filter((product) => {
+        return product.name.includes(search);
+      });
+    }
+ 
+
+    console.log('Filtered products:', filteredProducts);
+
+  
+    filteredProducts.forEach((product) => {
       // Below is an accumlator pattern
       productsHTML += `
       <div class="product-container">
@@ -63,7 +81,7 @@
             Added
           </div>
 
-          // Data attribute is put on each item
+          <!-- Data attribute is put on each item -->
           <button class="add-to-cart-button button-primary js-add-to-cart"
           data-product-id="${product.id}">
             Add to Cart
@@ -89,7 +107,7 @@
 
   // console.log(setCartQuantity());
   function updateCartQuantity() {
-    let cartQuantity = calculateCartQauntity();
+    let cartQuantity = calculateCartQuantity();
 
       console.log(cartQuantity);
     //  console.log(cart);
@@ -109,4 +127,41 @@
         updateCartQuantity();
       });
     });
+
+
+
+  const filterInput = document.querySelector('.js-search-bar');
+/*   const productsDisplayed = document.querySelector('.js-products-grid'); */
+
+  filterInput.addEventListener('input', function (event) {
+    const textInput = event.target.value.toLowerCase(); /* This makes all the text lowercase */
+    const products = document.querySelectorAll('.product-container');
+
+    for (const product of products) {
+      const productText = product.innerText.toLowerCase();
+
+      if(!productText.includes(textInput)) {
+        product.classList.add('hide');
+      } else {
+        product.classList.remove('hide');
+      }
+    }
+  });
 }
+
+  // document.querySelector('.js-search-bar')
+  // .addEventListener('click', () => {
+  //   const search = document.querySelector('.js-search-bar').value;
+  //   console.log('search value :', search)
+  //   window.location.href = `amazon.html?search=${search}`;
+  // });
+
+/*   const clearInput = function() {
+    filterInput.value = '';
+    const products = document.querySelectorAll('product-container');
+
+    for (const product of products) {
+      product.classList.remove('hide');
+    }
+  };
+ */
