@@ -197,5 +197,11 @@
     flex-shrink: 0; /* Prevent shrinking */
     width: auto; /* Allow natural size */
   }
+
+  .search-bar,
+  .search-button {
+    height: 40px; /* Ensure consistent height */
+    margin: 0; /* Remove extra margin */
+  }
 }
 
