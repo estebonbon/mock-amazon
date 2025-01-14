@@ -5,10 +5,6 @@ import { loadProductsFetch } from '../data/products.js';
 
 import { loadCartFetch } from '../data/cart.js';
 
-// import '../data/backend-practise.js'
-// import '../data/car.js';
-// import '../data/cart-class.js';
-
 async function loadPage() {
 
   try {
@@ -30,27 +26,3 @@ async function loadPage() {
 
 loadPage()
 
-// Promise.all([
-//   loadProductsFetch(),
-//   new Promise((resolve) => {
-//     loadCart(() => {
-//       resolve('mystery'); 
-//     });
-//   }),   
-
-// ]).then((values) => {
-//   console.log(values);
-  // renderOrderSummary();
-  // renderPaymentSummary();
-  // renderCheckoutHeader();
-// })
-
-// loadProducts(() => {
-//   loadCart(() => {
-    // renderOrderSummary();
-    // renderPaymentSummary();
-    // renderCheckoutHeader();
-//   });
-// });
-
-// Promises help to keep the code flat

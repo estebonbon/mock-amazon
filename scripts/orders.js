@@ -91,7 +91,6 @@ export async function loadPage() {
   document.querySelectorAll('.js-order-delete').forEach((link) => {
     link.addEventListener('click', () => {
       const orderId = link.dataset.orderId;
-      // console.log(orderId);
       removeOrder(orderId); 
       loadPage(); 
     });
@@ -107,9 +106,6 @@ export async function loadPage() {
   document.querySelectorAll('.js-buy-again').forEach((button) => {
     button.addEventListener('click', () => {
       addToCart(button.dataset.productId);
-
-      // (Optional) display a message that the product was added,
-      // then change it back after a second.
       button.innerHTML = 'Added';
       updateCart();
       setTimeout(() => {
@@ -125,8 +121,6 @@ export async function loadPage() {
 
 loadPage(); 
 
-
-// logOrders();
 
 
 

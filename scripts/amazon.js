@@ -1,10 +1,5 @@
   import { addToCart, calculateCartQuantity } from '../data/cart.js'
-  // import{identicalVariable} from '../thefile'
-  // all imports must be at the top of the folder
-  // rename import {cart as myCart} from '../theFile'
   import { products, loadProducts } from '../data/products.js';
-
-  // import { formatCurrency } from './money.js';
 
   loadProducts(renderProductsGrid);
 
@@ -16,7 +11,6 @@
     
     const url = new URL(window.location.href);
     const search = url.searchParams.get('search');
-    console.log(search);
   
     let filteredProducts = products;
   
@@ -27,10 +21,6 @@
         return product.name.includes(search);
       });
     }
- 
-
-    console.log('Filtered products:', filteredProducts);
-
   
     filteredProducts.forEach((product) => {
       // Below is an accumlator pattern
@@ -90,27 +80,12 @@
       `
     })
 
-    // console.log(productsHTML)
+
 
   document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-  // function setCartQuantity() {
-  //      // This is a separate operation that tracks the amount of items in the cart
-  //      let cartQuantity = 0;
-  //      cart.forEach((item) => {
-  //        cartQuantity += item.quantity;
-  //      });
-
-  //     //  console.log(cartQuantity)
-  //      return cartQuantity;
-  // }
-
-  // console.log(setCartQuantity());
   function updateCartQuantity() {
     let cartQuantity = calculateCartQuantity();
-
-      console.log(cartQuantity);
-    //  console.log(cart);
 
     // Updates the integer in the cart Icon
     document.querySelector('.js-cart-quantity')
@@ -121,13 +96,10 @@
   document.querySelectorAll('.js-add-to-cart') /* Targets the yellow btn's*/
     .forEach((button) => {
       button.addEventListener('click', () => {
-        // console.log('added product');
         const productId = button.dataset.productId;
 
         const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
         const productQuantity = Number(quantitySelector.value);
-
-        console.log('selectorQ:', productQuantity);
 
           addToCart(productId, productQuantity);
           updateCartQuantity();
@@ -137,7 +109,6 @@
 
 
   const filterInput = document.querySelector('.js-search-bar');
-/*   const productsDisplayed = document.querySelector('.js-products-grid'); */
 
   filterInput.addEventListener('input', function (event) {
     const textInput = event.target.value.toLowerCase(); /* This makes all the text lowercase */
@@ -155,19 +126,3 @@
   });
 }
 
-  // document.querySelector('.js-search-bar')
-  // .addEventListener('click', () => {
-  //   const search = document.querySelector('.js-search-bar').value;
-  //   console.log('search value :', search)
-  //   window.location.href = `amazon.html?search=${search}`;
-  // });
-
-/*   const clearInput = function() {
-    filterInput.value = '';
-    const products = document.querySelectorAll('product-container');
-
-    for (const product of products) {
-      product.classList.remove('hide');
-    }
-  };
- */

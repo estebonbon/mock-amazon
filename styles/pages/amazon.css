@@ -158,3 +158,9 @@
 .hide {
   display: none !important;
 }
+
+@media (max-width: 768px) {
+  .main{
+    margin-top: 100px /* Accomdates the header in mobile screens */
+  }
+}

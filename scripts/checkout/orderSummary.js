@@ -127,7 +127,7 @@ export function renderOrderSummary () {
     .forEach((link) => {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
-        console.log(productId)
+       /*  console.log(productId) */
         removeFromCart(productId);
         
         // console.log(cart);
@@ -185,7 +185,7 @@ export function renderOrderSummary () {
         const newQuantity = Number(quantityInput
           .value);
 
-        console.log(productId, newQuantity)
+     /*    console.log(productId, newQuantity) */
 
         // Prevents the code from continuing to run unless the coditions are met
         if (newQuantity < 0 || newQuantity >= 1000) {

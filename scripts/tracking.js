@@ -13,32 +13,15 @@ async function loadPage() {
   const orderId = url.searchParams.get('orderId'); // Extracts the orderId
   const productId = url.searchParams.get('productId'); // Extracts the productId
 
-  console.log('Order ID from URL:', orderId);
-
-
-  // console.log('Order ID:', orderId); // Should log: 2b79004a-9d8f-4493-86c5-ef174d9498eb
-  // console.log('Product ID:', productId); // Should log: b0f17cc5-8b40-4ca5-9142-b61fe3d98c85
-
   const order = getOrder(orderId);
   const product = getProduct(productId);
 
-  // Get additional details about the product like
-  // the estimated delivery time.
-
-  // console.log('Order products:', order.products);
-  // console.log('Product ID:', product.id);
   let productDetails;
-  console.log('Order:', order);
-  console.log('Order products:', order ? order.products : 'Order is undefined or null');
   order.products.forEach((details) => {
     if (details.productId === product.id) {
       productDetails = details;
     }
   });
-
-  console.log('Order:', order);
-  console.log('Order products:', order ? order.products : 'Order is undefined or null');
-
 
   const today = dayjs();
   const orderTime = dayjs(order.orderTime);

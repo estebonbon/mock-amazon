@@ -1,18 +1,17 @@
 .amazon-header {
-  background-color: rgb(19, 25, 33);
+  background-color: rgb(19, 25, 33); /* Dark header background */
   color: white;
-  padding-left: 15px;
-  padding-right: 15px;
-
+  padding: 0 15px; /* Add horizontal padding */
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-
+  align-items: center; /* Vertically align items */
+  justify-content: space-between; /* Space items evenly */
+  flex-wrap: nowrap; /* Prevent wrapping on wide screens */
+  height: 60px; /* Maintain consistent height */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  z-index: 1000; /* Ensure it stays on top */
 }
 
 .amazon-header-left-section {
@@ -60,11 +59,11 @@
 }
 
 .amazon-header-middle-section {
-  flex: 1;
-  max-width: 850px;
-  margin-left: 10px;
-  margin-right: 10px;
-  display: flex;
+  flex: 1; /* Allow search bar section to grow */
+  max-width: 850px; /* Limit its width */
+  display: flex; /* Keep search bar and button inline */
+  align-items: center; /* Vertically center items */
+  margin: 0 10px; /* Add spacing from left and right sections */
 }
 
 .search-bar {
@@ -147,3 +146,56 @@
   width: 26px;
   text-align: center;
 }
+
+/* Modification for the search bar */
+
+@media (max-width: 768px) {
+  .amazon-header {
+    display: flex;
+    flex-wrap: wrap; /* Ensure no wrapping */
+    align-items: center; /* Vertically align all sections */
+    justify-content: space-between; /* Space items evenly */
+    padding: 0 15px; /* Adjust padding */
+    height: auto; /* Allow flexible height */
+  }
+
+  .amazon-header-left-section {
+    flex: 0 0 auto; /* Prevent shrinking or growing */
+    display: flex;
+    align-items: center; /* Keep logo vertically aligned */
+    justify-content: flex-start; /* Align to the left */
+    margin: 0; /* Remove any margin */
+  }
+
+  .amazon-header-right-section {
+    flex: 0 0 auto; /* Prevent growing/shrinking */
+    display: flex;
+    align-items: center; /* Vertically align items */
+    justify-content: flex-end; /* Align to the right */
+    gap: 10px; /* Add spacing between items */
+    margin: 0; /* Reset margins */
+    order: 1; /* Keep it on the same row as the logo */
+  }
+
+  .amazon-header-middle-section {
+    flex-basis: 100%; /* Make the search bar full width */
+    display: flex; /* Ensure search bar and button align horizontally */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Vertically align items */
+ /*    gap: 15px; */ /* Add space between search bar and button */
+    order: 2; /* Place it below logo and right section */
+    margin-top: 10px; /* Add spacing above */
+    margin-bottom: 10px;
+  }
+
+  .search-bar {
+    flex: 1;
+    width: 100%; /* Full width of the middle section */
+  }
+
+  .search-button {
+    flex-shrink: 0; /* Prevent shrinking */
+    width: auto; /* Allow natural size */
+  }
+}
+

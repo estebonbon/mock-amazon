@@ -32,8 +32,8 @@ function saveToStorage() {
 export function addToCart(productId, productQuantity = 1) {
   let matchingItem;
 
-  console.log('Product being added:', productId, 'Quantity:', productQuantity);
-  console.log('Cart before update:', cart);
+ /*  console.log('Product being added:', productId, 'Quantity:', productQuantity);
+  console.log('Cart before update:', cart); */
 
 
   // Tracks each item in the cart Array, no duplicates only the quantity can change.
@@ -126,7 +126,7 @@ export function loadCart(done) {
 
   // Add event listener in this case it is load
   xhr.addEventListener('load', () => {
-    console.log(xhr.response);
+   /*  console.log(xhr.response); */
     done();
   });
     // The first line is the command we want it to execute, seconde line executes.
@@ -140,7 +140,7 @@ export async function loadCartFetch() {
   fetch('https://supersimplebackend.dev/cart');
 
   const text = await response.text();
-  console.log(text);
+ /*  console.log(text); */
   return text;
 }
  
